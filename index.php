@@ -1,8 +1,5 @@
 <?php
 include("conexion.php");
-echo ""
-
-
 ?>
 
 <!DOCTYPE html>
