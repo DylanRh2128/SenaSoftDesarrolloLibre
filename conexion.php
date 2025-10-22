@@ -1,15 +1,12 @@
 <?php
-    $servername = "localhost";
-    $username = "root";
-    $pass = "";
-    $dbname = "senasoft";
+    $local="localhost";
+    $user="root";
+    $pass="";
+    $base="desarolllolibre";
+    $conexion= mysqli_connect($local,$user,$pass,$base);
 
-    $con = new mysqli($servername, $username, $pass, $dbname);
-
-    if ($con -> connect_error){
-        die ("conexion fallida" . $con->connect_error);
-    }else{
-        echo("conexion exitosaA");
-    }
-
+    if ($conexion->connect_error) {
+    die("Conexión fallida: " . $conexion->connect_error);
+}
+echo "¡Conexión exitosa!";
 ?>
