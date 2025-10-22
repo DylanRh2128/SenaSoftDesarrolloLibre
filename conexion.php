@@ -1,14 +1,19 @@
 <?php
-    $servername = "localhost";
-    $username = "root";
-    $pass = "";
-    $dbname = "desarrollolibre";
+$host = 'localhost';
+$user = 'root';
+$password = '';
+$dbname = 'desarrollolibre';
 
-    $conexion = mysqli_connect($servername, $username, $pass, $dbname);
+$dsn = "mysql:host={$host};dbname={$dbname};charset=utf8mb4";
+$pdoOptions = [
+    PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
+    PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
+    PDO::ATTR_EMULATE_PREPARES => false,
+];
 
-    if ($conexion -> connect_error){
-        die ("conexion fallida" . $conexion->connect_error);
-    }
-
-    echo "conexion exisota"
+try {
+    $pdo = new PDO($dsn, $user, $password, $pdoOptions);
+} catch (Exception $e) {
+    throw new RuntimeException('No se pudo conectar a la base de datos.');
+}
 ?>
