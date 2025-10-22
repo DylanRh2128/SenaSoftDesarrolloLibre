@@ -10,7 +10,7 @@ $fechNacimiento=trim($_POST['nacimiento']);
 $celular=trim($_POST['celular']);
 $email=trim($_POST['email']);
 $password=trim($_POST['password']);
-$idRol='1';
+$idRol='3';
 
 $consulta="INSERT INTO pasajeros (nombres,primerApellido,segundoApellido,fechNacimiento,genero,
                                         tipoDocumento,documento,celular,email,password,idRol) VALUES('$nombres','$primerApellido','$segundoApellido','$fechNacimiento','$genero',

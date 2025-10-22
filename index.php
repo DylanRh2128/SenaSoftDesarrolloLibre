@@ -1,3 +1,6 @@
+<?php
+    include 'conexion.php';
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -15,7 +18,7 @@
             <div class="logo-nav">
                 <img src="" alt="">
             </div>
-            <div class="list-nav">
+            <div class="list-nav"> 
                 <ul>
                     <li><a href="/index.php">Inicio</a></li>
                     <li><a href="./pages/login.php">Login</a></li>
