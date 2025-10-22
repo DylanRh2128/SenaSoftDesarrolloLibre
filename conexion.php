@@ -1,12 +1,14 @@
 <?php
-    $local="localhost";
-    $user="root";
-    $pass="";
-    $base="desarolllolibre";
-    $conexion= mysqli_connect($local,$user,$pass,$base);
+    $servername = "localhost";
+    $username = "root";
+    $pass = "";
+    $dbname = "desarrollolibre";
 
-    if ($conexion->connect_error) {
-    die("Conexión fallida: " . $conexion->connect_error);
-}
-echo "¡Conexión exitosa!";
+    $conexion = mysqli_connect($servername, $username, $pass, $dbname);
+
+    if ($conexion -> connect_error){
+        die ("conexion fallida" . $conexion->connect_error);
+    }
+
+    echo "conexion exisota"
 ?>
