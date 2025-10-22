@@ -1,26 +1,19 @@
-<!doctype html>
-
-<html lang="es">
+<?php
+    include 'conexion.php';
+?>
+<!DOCTYPE html>
+<html lang="en">
 
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>SENAPORC - Vuelos</title>
-
-    <!-- Bootstrap CSS (CDN) -->
-
+    <title>SENASOFT - Vuelos</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-
-    <!-- Estilos personalizados -->
-
     <link rel="stylesheet" href="/css/index.css">
     <link rel="stylesheet" href="/css/coloresGblo.css">
 </head>
 
 <body>
-
-    <!-- HEADER / NAV -->
-
     <nav class="navbar navbar-expand-lg navbar-dark header">
         <div class="container">
             <a class="navbar-brand" href="#">SENAPORC</a>
@@ -90,14 +83,10 @@
         </div>
 
     </header>
-
-    <!-- CONTENIDO: DESTINOS Y PROMOCIONES -->
-
     <main class="py-4">
         <div class="container">
             <div class="row g-4">
 
-                <!-- Destinos populares -->
                 <div class="col-12 col-lg-8">
                     <div class="mb-3 d-flex justify-content-between align-items-center">
                         <h4>Destinos populares</h4>
@@ -119,7 +108,7 @@
                                 </div>
                             <?php endforeach; ?>
                         <?php else: ?>
-                            <!-- Placeholder si no hay datos -->
+                            
                             <?php for ($i = 0; $i < 4; $i++): ?>
                                 <div class="col">
                                     <div class="card destino-card">
@@ -213,9 +202,6 @@
             </div>
         </div>
     </footer>
-
-    <!-- Bootstrap JS (bundle incl. Popper) -->
-
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
 </body>
