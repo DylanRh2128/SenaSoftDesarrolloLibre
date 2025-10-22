@@ -1,31 +1,29 @@
 <?php
+include '../conexion.php';
 
-include ("../conexion.php");
+$email=trim($_POST['email']??'');
+$password=trim($_POST['password']??'');
 
-$email = $_POST["email"] ?? '';
-$pass  = $_POST["pass"] ?? '';
-
-
-// Validaciones simples
-if ($email === '' || $pass === '') {
-    echo "Por favor complete todos los campos.";
-    exit();
+if ($email===''||$password===''){
+    die('Por favor complete todos los campos.');
 }
+$consulta="SELECT p.nombres, p.primerApellido, r.nombreRol, p.password 
+                 FROM pasajeros p 
+                 JOIN roles r ON p.idRol=r.idRol 
+                 WHERE p.email=?";
 
-$sql = "SELECT p.nombres, p.primerApellido, r.nombreRol FROM pasajeros p JOIN roles r ON p.idRol = r.idRol WHERE p.email = ? AND p.password = ?";
+$stmt=$conexion->prepare($consulta);
+$stmt->bind_param("s",$email);
+$stmt->execute();
+$result=$stmt->get_result();
 
-if ($stmt = $conexion->prepare($sql)) {
-    $stmt->bind_param("ss", $email, $pass);
-    $stmt->execute();
-    $resultado = $stmt->get_result();
-
-    if ($resultado->num_rows === 1) {
-        $fila = $resultado->fetch_assoc();
-        $nombre_pasajero = $fila['nombres'];
-        $apellido_pasajero = $fila['primerApellido'];
-        $nombre_rol = $fila['nombreRol'];
-
-        switch ($nombre_rol) {
+if ($result->num_rows===1) {
+    $user=$result->fetch_assoc();
+    if (
+        password_verify($password, $user['password']) ||
+        trim($password) === trim($user['password'])
+    ) {
+        switch ($user['nombreRol']) {
             case 'admin':
                 header("Location: ../pages/admin/admin.php");
                 exit();
@@ -35,20 +33,33 @@ if ($stmt = $conexion->prepare($sql)) {
             case 'pasajero':
                 header("Location: ../pages/user/user.php");
                 exit();
-
             default:
-                echo "Rol no reconocido.";
-                exit();
+                die('Rol no reconocido.');
         }
     } else {
-        echo "Credenciales inválidas. Por favor, intente de nuevo.";
-        exit();
+        die('Contraseña incorrecta.');
     }
+}else {
+    // --- SEGUNDA PARTE: Buscar en tabla aerolinea ---
+    $sql_aero = "SELECT * FROM aerolinea WHERE email = ?";
+    $stmt = $conexion->prepare($sql_aero);
+    $stmt->bind_param("s", $email);
+    $stmt->execute();
+    $result_aero = $stmt->get_result();
 
-    $stmt->close();
-} else {
-    echo "Error en la preparación de la consulta.";
-    exit();
+    if ($result_aero->num_rows === 1) {
+        $aero = $result_aero->fetch_assoc();
+
+        // Como las contraseñas NO están encriptadas, comparamos texto plano
+        if (trim($password) === trim($aero['password'])) {
+            header("Location: ../pages/aerolinea/aerolinea.php");
+            exit();
+        } else {
+            die('Contraseña incorrecta para aerolínea.');
+        }
+    } else {
+        die('Credenciales inválidas. El usuario o aerolínea no existen.');
+    }
 }
 
 ?>
