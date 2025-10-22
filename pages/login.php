@@ -15,12 +15,12 @@
 
         <h1 class="p-3 text-center">INGRESA SUS CREDENCIALES</h1>
 
-        <form class="mx-auto" style="width: 500px;" action="src/ingreso.php" method="POST">
+    <form class="mx-auto" style="width: 500px;" action="../src/ingreso.php" method="POST">
             <div class="col-10">
-                <label for="exampleInputEmail1" id class="form-label">Ingresasu correo</label>
-                <input type="email" class="form-control" name="email" require>
+                <label for="exampleInputEmail1" id class="form-label">Ingresa su correo</label>
+        <input type="email" class="form-control" name="email" required>
                 <label for="exampleInputEmail1" id class="form-label">Ingresa su contraseña</label>
-                <input type="password" class="form-control" name="pass" require>
+        <input type="password" class="form-control" name="pass" required>
                 <a class="text-center" href="#">Olvidaste tu contraseña?</a>
                 <br> <br>   
 

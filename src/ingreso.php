@@ -1,48 +1,61 @@
 <?php
-<<<<<<< HEAD
-    include("./conexion.php");
-=======
-session_start();
-require_once __DIR__ . '/conexion.php';
 
-$error = '';
-$success = '';
+include ("../conexion.php");
 
-if (isset($_GET['logout'])) {
-    session_unset();
-    session_destroy();
-    header('Location: index.php');
-    exit;
+$email = $_POST["email"];
+$pass  = $_POST["pass"];
+
+
+// Validaciones simples
+if ($email === '' || $pass === '') {
+    echo "Por favor complete todos los campos.";
+    exit();
 }
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $email = isset($_POST['email']) ? trim($_POST['email']) : '';
-    $pass = isset($_POST['pass']) ? trim($_POST['pass']) : '';
+// Consulta para obtener el rol del usuario
+$sql = "SELECT p.nombres, p.primerApellido, r.nombreRol FROM pasajeros p JOIN roles r ON p.idrRol = r.idRol WHERE p.email = ? AND p.password = ?";
 
-    if ($email === '' || $pass === '') {
-        $error = 'Por favor, completa todos los campos.';
-    } else {
-        if ($stmt = mysqli_prepare($con, 'SELECT id, email, password FROM usuarios WHERE email = ? LIMIT 1')) {
-            mysqli_stmt_bind_param($stmt, 's', $email);
-            mysqli_stmt_execute($stmt);
-            $result = mysqli_stmt_get_result($stmt);
-            if ($row = mysqli_fetch_assoc($result)) {
-                $dbPass = $row['password'];
-                $valid = password_verify($pass, $dbPass) || ($pass === $dbPass);
-                if ($valid) {
-                    $_SESSION['user_id'] = $row['id'];
-                    $_SESSION['email'] = $row['email'];
-                    $success = 'Inicio de sesión exitoso.';
-                } else {
-                    $error = 'Credenciales inválidas.';
-                }
-            } else {
-                $error = 'Credenciales inválidas.';
-            }
-            mysqli_stmt_close($stmt);
-        } else {
-            $error = 'Error interno. Inténtalo más tarde.';
+if ($stmt = $conexion->prepare($sql)) {
+    $stmt->bind_param("ss", $email, $pass);
+    $stmt->execute();
+    $resultado = $stmt->get_result();
+
+    if ($resultado->num_rows === 1) {
+        $fila = $resultado->fetch_assoc();
+        $nombre_pasajero = $fila['nombres'];
+        $apellido_pasajero = $fila['primerApellido'];
+        $nombre_rol = $fila['nombreRol'];
+
+        // Manejo por rol (5 casos). Ajusta las rutas según tu proyecto.
+        switch ($nombre_rol) {
+            case 'admin':
+                header("Location: ../admin/panel_admin.php");
+                exit();
+            case 'Pasajero':
+                header("Location: ../pasajero/panel_pasajero.php");
+                exit();
+            case 'Conductor':
+                header("Location: ../conductor/panel_conductor.php");
+                exit();
+            case 'Operador':
+                header("Location: ../operador/panel_operador.php");
+                exit();
+            case 'Supervisor':
+                header("Location: ../supervisor/panel_supervisor.php");
+                exit();
+            default:
+                echo "Rol no reconocido.";
+                exit();
         }
+    } else {
+        echo "Credenciales inválidas. Por favor, intente de nuevo.";
+        exit();
     }
+
+    $stmt->close();
+} else {
+    echo "Error en la preparación de la consulta.";
+    exit();
 }
+
 ?>

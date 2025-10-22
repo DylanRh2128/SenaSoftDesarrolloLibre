@@ -13,20 +13,21 @@
 
     <!-- Estilos personalizados -->
 
-    <link rel="stylesheet" href="/css/index.css">
-    <link rel="stylesheet" href="/css/coloresGblo.css">
+    <link rel="stylesheet" href="css/coloresGblo.css">
+    <link rel="stylesheet" href="css/index.css">
 </head>
 
 <body>
 
     <!-- HEADER / NAV -->
 
-    <nav class="navbar navbar-expand-lg navbar-dark header">
+    <nav class="navbar navbar-expand-lg header">
         <div class="container">
             <a class="navbar-brand" href="#">SENAPORC</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navmenu">
                 <span class="navbar-toggler-icon"></span>
             </button>
+
 
             <div class="collapse navbar-collapse" id="navmenu">
                 <ul class="navbar-nav ms-auto align-items-center">
@@ -34,7 +35,9 @@
                         <li class="nav-item me-3"><span class="small-muted">Hola, <?= htmlspecialchars($_SESSION['user_email']) ?></span></li>
                         <li class="nav-item"><a class="btn btn-outline-secondary" href="logout.php">Cerrar sesión</a></li>
                     <?php else: ?>
-                        <li class="nav-item"><a class="nav-link" href="#login">Iniciar sesión</a></li>
+                        <li class="nav-item"><a class="nav-link" href="pages/login.php">Iniciar sesión</a></li>
+                        <li class="nav-item"><a class="nav-link" href="pages/register.php">Crear cuenta</a></li>
+                        <li class="nav-item"><a class="nav-link" href="#">Nosotros</a></li>
                     <?php endif; ?>
                 </ul>
             </div>
@@ -54,7 +57,7 @@
 
                 <div class="col-lg-5">
                     <div class="form-card">
-                        <form method="get" action="resultados.php" class="row g-2">
+                        <form method="get" action="pages/vuelos.php" class="row g-2">
                             <div class="col-12">
                                 <label class="form-label">Origen</label>
                                 <input name="origen" class="form-control" placeholder="Ciudad o aeropuerto" required>
@@ -71,15 +74,7 @@
                                 <label class="form-label">Fecha vuelta</label>
                                 <input type="date" name="fecha_vuelta" class="form-control">
                             </div>
-                            <div class="col-6">
-                                <label class="form-label">Pasajeros</label>
-                                <select name="pasajeros" class="form-select">
-                                    <option value="1">1</option>
-                                    <option value="2">2</option>
-                                    <option value="3">3</option>
-                                    <option value="4">4</option>
-                                </select>
-                            </div>
+                            <!-- Campo de pasajeros eliminado: ya no se envía al buscar -->
                             <div class="col-6 d-flex align-items-end">
                                 <button type="submit" class="btn btn-primary w-100">Buscar vuelos</button>
                             </div>
@@ -89,6 +84,7 @@
             </div>
         </div>
 
+
     </header>
 
     <!-- CONTENIDO: DESTINOS Y PROMOCIONES -->
@@ -96,6 +92,7 @@
     <main class="py-4">
         <div class="container">
             <div class="row g-4">
+
 
                 <!-- Destinos populares -->
                 <div class="col-12 col-lg-8">
@@ -160,33 +157,7 @@
                         <?php endif; ?>
                     </div>
 
-                    <div id="login" class="mb-4">
-                        <h5>Iniciar sesión</h5>
-                        <div class="form-card">
-                            <?php if ($login_error): ?>
-                                <div class="alert alert-danger p-2"><?= htmlspecialchars($login_error) ?></div>
-                            <?php endif; ?>
 
-                            <?php if (!empty($_SESSION['user_email'])): ?>
-                                <div class="mb-2">Conectado como <strong><?= htmlspecialchars($_SESSION['user_email']) ?></strong></div>
-                                <a class="btn btn-outline-secondary w-100" href="logout.php">Cerrar sesión</a>
-                            <?php else: ?>
-                                <form method="post" action="#login" class="row g-2">
-                                    <div class="col-12">
-                                        <label class="form-label">Email</label>
-                                        <input type="email" name="login_email" class="form-control" required>
-                                    </div>
-                                    <div class="col-12">
-                                        <label class="form-label">Contraseña</label>
-                                        <input type="password" name="login_password" class="form-control" required>
-                                    </div>
-                                    <div class="col-12 d-grid">
-                                        <button type="submit" name="login_submit" class="btn btn-primary">Entrar</button>
-                                    </div>
-                                </form>
-                            <?php endif; ?>
-                        </div>
-                    </div>
 
                     <div class="mb-3">
                         <h6>Información rápida</h6>
@@ -195,8 +166,7 @@
                 </aside>
 
             </div>
-        </div>
-
+    </div>
     </main>
 
     <!-- FOOTER -->
@@ -213,8 +183,6 @@
             </div>
         </div>
     </footer>
-
-    <!-- Bootstrap JS (bundle incl. Popper) -->
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
