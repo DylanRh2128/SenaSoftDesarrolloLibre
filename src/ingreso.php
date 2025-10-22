@@ -1,16 +1,18 @@
 <?php
-include '../conexion.php';
+include ("../conexion.php");
+$email = $_POST["email"];
+$pass  = $_POST["pass"];
 
-$email=trim($_POST['email']??'');
-$password=trim($_POST['password']??'');
 
-if ($email===''||$password===''){
-    die('Por favor complete todos los campos.');
+if ($email === '' || $pass === '') {
+    echo "Por favor complete todos los campos.";
+    exit();
 }
 $consulta="SELECT p.nombres, p.primerApellido, r.nombreRol, p.password 
                  FROM pasajeros p 
                  JOIN roles r ON p.idRol=r.idRol 
                  WHERE p.email=?";
+
 
 $stmt=$conexion->prepare($consulta);
 $stmt->bind_param("s",$email);
@@ -40,7 +42,6 @@ if ($result->num_rows===1) {
         die('Contraseña incorrecta.');
     }
 }else {
-    // --- SEGUNDA PARTE: Buscar en tabla aerolinea ---
     $sql_aero = "SELECT * FROM aerolinea WHERE email = ?";
     $stmt = $conexion->prepare($sql_aero);
     $stmt->bind_param("s", $email);
@@ -60,6 +61,11 @@ if ($result->num_rows===1) {
     } else {
         die('Credenciales inválidas. El usuario o aerolínea no existen.');
     }
+
+    $stmt->close();
+} else {
+    echo "Error en la preparación de la consulta.";
+    exit();
 }
 
 ?>
