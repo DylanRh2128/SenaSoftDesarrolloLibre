@@ -1,10 +1,6 @@
 <?php
-include('../../conexion.php');
-
-
+  include('../../conexion.php');
 ?>
-
-
 
 <!DOCTYPE html>
 <html lang="en">
@@ -37,8 +33,5 @@ include('../../conexion.php');
                 </ul>
             </div>
         </div>
-
-
-
 </body>
 </html>
