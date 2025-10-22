@@ -1,0 +1,89 @@
+:root {
+    --color-primario: #038C8C;
+    --color-secundario: #F29829;
+    --color-fondo: #4EB4D0;
+    --color-texto: #8C7B65;
+}
+
+/* Reseteo / base */
+html,
+body {
+    height: 100%;
+    background: linear-gradient(180deg, var(--color-fondo) 0%, #d9f5fb 100%);
+    color: var(--color-texto);
+    font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+}
+
+/* Header */
+.header {
+    background: rgba(255, 255, 255, 0.92);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+    box-shadow: 0 1px 6px rgba(0, 0, 0, 0.03);
+}
+
+/* Brand */
+.navbar-brand {
+    color: var(--color-primario) !important;
+    font-weight: 700;
+}
+
+/* Botones principales */
+.btn-primary {
+    background-color: var(--color-primario);
+    border-color: var(--color-primario);
+}
+
+.btn-primary:hover,
+.btn-primary:focus {
+    background-color: darken(var(--color-primario), 5%);
+    border-color: darken(var(--color-primario), 5%);
+}
+
+/* Cards */
+.card-promo {
+    border: none;
+    border-left: 6px solid var(--color-secundario);
+    background: #fff;
+}
+
+/* Form styling */
+.form-card {
+    background: #ffffffb8;
+    padding: 1.25rem;
+    border-radius: .5rem;
+    box-shadow: 0 6px 18px rgba(13, 45, 55, 0.06);
+}
+
+/* Destinos list */
+.destino-card {
+    transition: transform .15s ease, box-shadow .15s ease;
+}
+
+.destino-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.08);
+}
+
+/* Footer */
+.footer {
+    background: rgba(0, 0, 0, 0.03);
+    padding: 2rem 0;
+    color: var(--color-texto);
+}
+
+/* Utilities (small adjustments) */
+.small-muted {
+    color: #6c757d;
+    font-size: .9rem;
+}
+
+/* Responsive tweaks */
+@media (max-width: 576px) {
+    .form-card {
+        padding: 1rem;
+    }
+
+    .col-4 {
+        width: 100% !important;
+    }
+}

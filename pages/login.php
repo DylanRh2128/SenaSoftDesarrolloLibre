@@ -14,7 +14,6 @@
     <div class="contenedor-principal">
 
         <h1 class="p-3 text-center">INGRESA SUS CREDENCIALES</h1>
-
         <form class="mx-auto" style="width: 500px;" action="../src/ingreso.php" method="POST">
             <div class="col-10">
                 <label for="exampleInputEmail1" id class="form-label">Ingresasu correo</label>
@@ -26,9 +25,7 @@
 
                 <button type="submit" class="btn btn-primary" style="width: 420px;">Ingresar</button>
         </form>
-
         <h4 class="text-center p-2" >No estas registrado? <a class="fs-3"  href="/register.php">Crear Cuenta</a> </h4>
-
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>

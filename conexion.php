@@ -10,5 +10,4 @@
         die ("conexion fallida" . $conexion->connect_error);
     }
 
-    echo "conexion exisota";
 ?>
