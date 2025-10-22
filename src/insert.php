@@ -12,13 +12,19 @@ $email=trim($_POST['email']);
 $password=trim($_POST['password']);
 $idRol='3';
 
-$consulta="INSERT INTO pasajeros (nombres,primerApellido,segundoApellido,fechNacimiento,genero,
-                                        tipoDocumento,documento,celular,email,password,idRol) VALUES('$nombres','$primerApellido','$segundoApellido','$fechNacimiento','$genero',
-                                        '$tipoDocumento','$documento','$celular','$email','$password','$idRol')";
-$query=mysqli_query($conexion,$consulta);
 
-if($query){?>
-    <script>alert("Usuario registrado correctamente.");location.assign('../pages/login.php');</script><?php
+$sql = "INSERT INTO pasajeros (nombres, primerApellido, segundoApellido, fechNacimiento, genero, tipoDocumento, documento, celular, email, password, idRol)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+
+$stmt = $conexion->prepare($sql);
+$stmt->bind_param("ssssssssssi", $nombres, $primerApellido, $segundoApellido, $fechNacimiento, $genero, $tipoDocumento, $documento, $celular, $email, $password, $idRol);
+$stmt->execute();
+
+
+if ($stmt->affected_rows > 0) {
+    echo "<script>alert('Usuario registrado correctamente.');location.assign('../pages/login.php');</script>";
 }
 
+$stmt->close();
+$conexion->close();
 ?>

@@ -34,9 +34,6 @@
         </div>
 
     </nav>
-
-    <!-- HERO / BÚSQUEDA -->
-
     <header class="py-5">
         <div class="container">
             <div class="row gy-4 align-items-center">
@@ -123,8 +120,6 @@
                         <?php endif; ?>
                     </div>
                 </div>
-
-                <!-- Panel lateral: Promociones y login -->
                 <aside class="col-12 col-lg-4">
                     <div class="mb-4">
                         <h5>Promociones activas</h5>
@@ -185,10 +180,6 @@
 
             </div>
         </div>
-
-    </main>
-
-    <!-- FOOTER -->
 
     <footer class="footer mt-auto">
         <div class="container">
