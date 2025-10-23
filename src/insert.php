@@ -1,31 +1,33 @@
 <?php
-include '../conexion.php';
-$nombres=trim($_POST['nombre']);
-$primerApellido=trim($_POST['primerApellido']);
-$segundoApellido=trim($_POST['segundoApellido']);
-$tipoDocumento=trim($_POST['tpDocumento']);
-$documento=trim($_POST['documento']);
-$genero=trim($_POST['genero']);
-$fechNacimiento=trim($_POST['nacimiento']);
-$celular=trim($_POST['celular']);
-$email=trim($_POST['email']);
-$password=trim($_POST['password']);
-$idRol='3';
+include '../conexion.php'; // Asegúrate de tener este archivo funcionando
 
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    $nombres = $_POST['nombres'];
+    $primerApellido = $_POST['primerApellido'];
+    $segundoApellido = $_POST['segundoApellido'];
+    $fechNacimiento = $_POST['fechNacimiento'];
+    $genero = $_POST['genero'];
+    $tipoDocumento = $_POST['tipoDocumento'];
+    $documento = $_POST['documento'];
+    $celular = $_POST['celular'];
+    $email = $_POST['email'];
+    $idRol=1;
+    $password = password_hash($_POST['password'], PASSWORD_DEFAULT);
 
-$sql = "INSERT INTO pasajeros (nombres, primerApellido, segundoApellido, fechNacimiento, genero, tipoDocumento, documento, celular, email, password, idRol)
-        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+    $sql = "INSERT INTO pasajeros 
+            (nombres, primerApellido, segundoApellido, fechNacimiento, genero, tipoDocumento, documento, celular, email,idRol, password)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
-$stmt = $conexion->prepare($sql);
-$stmt->bind_param("ssssssssssi", $nombres, $primerApellido, $segundoApellido, $fechNacimiento, $genero, $tipoDocumento, $documento, $celular, $email, $password, $idRol);
-$stmt->execute();
+    $stmt = $conexion->prepare($sql);
+    $stmt->bind_param("sssssssssis", $nombres, $primerApellido, $segundoApellido, $fechNacimiento, $genero, $tipoDocumento, $documento, $celular, $email,$idRol, $password);
 
+    if ($stmt->execute()) {
+        echo "<script>alert('Registro exitoso.'); window.location.href = '../pages/login.php';</script>";
+    } else {
+        echo "<script>alert('Error al registrar.'); window.history.back();</script>";
+    }
 
-if ($stmt->affected_rows > 0) {
-    echo "<script>alert('Usuario registrado correctamente.');location.assign('../pages/login.php');</script>";
+    $stmt->close();
+    $conexion->close();
 }
-
-$stmt->close();
-$conexion->close();
 ?>
-

@@ -1,18 +1,17 @@
 <?php
 include ("../conexion.php");
 $email = $_POST["email"];
-$pass  = $_POST["pass"];
+$password  = $_POST["password"];
 
 
-if ($email === '' || $pass === '') {
+if ($email === '' || $password === '') {
     echo "Por favor complete todos los campos.";
     exit();
 }
 $consulta="SELECT p.nombres, p.primerApellido, r.nombreRol, p.password 
-                 FROM pasajeros p 
-                 JOIN roles r ON p.idRol=r.idRol 
-                 WHERE p.email=?";
-
+           FROM pasajeros p 
+           JOIN roles r ON p.idRol = r.idRol 
+           WHERE p.email = ?";
 
 $stmt=$conexion->prepare($consulta);
 $stmt->bind_param("s",$email);
@@ -63,9 +62,6 @@ if ($result->num_rows===1) {
     }
 
     $stmt->close();
-} else {
-    echo "Error en la preparación de la consulta.";
-    exit();
-}
+} 
 
 ?>
