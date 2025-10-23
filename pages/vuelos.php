@@ -56,6 +56,10 @@ if ($stmt = mysqli_prepare($conexion, $sql)){
             echo "<p class=\"mb-1\"><strong>Fecha:</strong> ".htmlspecialchars($row['fecha'])."</p>";
             echo "<p class=\"mb-1\"><strong>Salida:</strong> ".htmlspecialchars($row['horaSalida'])." — <strong>Llegada:</strong> ".htmlspecialchars($row['horaLlegada'])."</p>";
             echo "<p class=\"mb-0\">".htmlspecialchars($row['origen'])." → ".htmlspecialchars($row['destino'])."</p>";
+            echo "<div class=\"mt-3\">
+                    <a href=\"user/reserva.php?vuelo=".htmlspecialchars($row['idDisponibilidad'])."\" 
+                       class=\"btn btn-primary\">Reservar Vuelo</a>
+                  </div>";
             echo "</div></div></div>";
         }
         echo "</div>";
@@ -70,6 +74,10 @@ if ($stmt = mysqli_prepare($conexion, $sql)){
 
 ?>
 <p><a href="../index.php">Volver a buscar</a></p>
+<p><a href="user/asientos.php">Asientos</a></p>
+
+
+
 </div>
 </body>
 </html>

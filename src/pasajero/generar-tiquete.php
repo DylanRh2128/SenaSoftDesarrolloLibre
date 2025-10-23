@@ -100,4 +100,3 @@ $pdf->SetFont('Arial', 'I', 10);
 $pdf->MultiCell(0, 8, utf8_decode("Este tiquete confirma su reserva en el sistema de Desarrollo Libre. Presentar en el aeropuerto junto con su documento de identidad. No es reembolsable salvo políticas de la aerolínea."));
 
 $pdf->Output('I', 'Tiquete_' . $tiquete['idTiquete'] . '.pdf');
-?>
