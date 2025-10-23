@@ -66,7 +66,97 @@ if (empty($tiquetes)) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Reserva Confirmada - <?= htmlspecialchars($codigoReserva) ?></title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="../../css/asientos.css">
+    <style>
+        .success-icon {
+            font-size: 80px;
+            color: #198754;
+            animation: scaleIn 0.5s ease-out;
+        }
+        
+        @keyframes scaleIn {
+            from {
+                transform: scale(0);
+            }
+            to {
+                transform: scale(1);
+            }
+        }
+        
+        .tiquete {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .tiquete::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 5px;
+            height: 100%;
+            background: linear-gradient(to bottom, #0d6efd, #198754);
+        }
+        
+        .codigo-reserva {
+            font-size: 32px;
+            font-weight: bold;
+            color: #0d6efd;
+            letter-spacing: 2px;
+            font-family: 'Courier New', monospace;
+        }
+        
+        .info-section {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 10px;
+            margin: 15px 0;
+        }
+        
+        .asiento-ticket {
+            display: inline-block;
+            background: #0d6efd;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-size: 20px;
+            font-weight: bold;
+            margin: 5px;
+        }
+        
+        .boarding-pass {
+            border: 2px dashed #dee2e6;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+        }
+        
+        .qr-placeholder {
+            width: 150px;
+            height: 150px;
+            background: #f8f9fa;
+            border: 2px solid #dee2e6;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 10px;
+            margin: 0 auto;
+        }
+        
+        @media print {
+            .no-print {
+                display: none;
+            }
+            
+            body {
+                background: white;
+            }
+        }
+    </style>
 </head>
 <body class="bg-light">
     <div class="container mt-5 mb-5">
@@ -356,6 +446,15 @@ if (empty($tiquetes)) {
     </div>
     
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        // Efecto confetti al cargar (opcional)
+        window.addEventListener('load', function() {
+            // Puedes agregar una librería de confetti aquí
+            console.log('Reserva confirmada exitosamente!');
+        });
+    </script>
+
     <script src="../../js/asientos.js"></script>
 </body>
 </html>

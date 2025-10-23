@@ -41,7 +41,6 @@ while ($row = mysqli_fetch_assoc($result)) {
     $asientosOcupados[] = $row['asiento'];
 }
 
-// Contar pasajeros correctamente (pasajeros principales, no infantes)
 $cantidadPasajeros = 0;
 foreach ($_SESSION['datos_reserva']['pasajeros'] as $pasajero) {
     // Solo contar si tiene nombre (es un pasajero principal)
@@ -58,8 +57,106 @@ foreach ($_SESSION['datos_reserva']['pasajeros'] as $pasajero) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Selección de Asientos</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="../../css/procesar_reserva.css">
+    <style>
+        .asientos-container {
+            display: grid;
+            gap: 10px;
+            padding: 20px;
+            background-color: #f8f9fa;
+            border-radius: 10px;
+            margin: 20px 0;
+        }
 
+        .asiento {
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 2px solid #dee2e6;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background-color: white;
+        }
+
+        .asiento:hover:not(.ocupado):not(.seleccionado) {
+            background-color: #e9ecef;
+            transform: scale(1.05);
+        }
+
+        .asiento.ocupado {
+            background-color: #dc3545;
+            color: white;
+            cursor: not-allowed;
+        }
+
+        .asiento.seleccionado {
+            background-color: #198754;
+            color: white;
+            border-color: #198754;
+        }
+
+        .pasillo {
+            width: 30px;
+        }
+
+        .leyenda-item {
+            display: flex;
+            align-items: center;
+            margin-right: 20px;
+        }
+
+        .leyenda-color {
+            width: 20px;
+            height: 20px;
+            border-radius: 4px;
+            margin-right: 8px;
+        }
+
+        .flight-info {
+            background: linear-gradient(135deg, #0d6efd0d 0%, #0d6efd1a 100%);
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 30px;
+        }
+
+        .progress-steps {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 30px;
+            position: relative;
+        }
+
+        .progress-steps::before {
+            content: '';
+            position: absolute;
+            top: 15px;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: #dee2e6;
+            z-index: 1;
+        }
+
+        .step {
+            position: relative;
+            z-index: 2;
+            background: white;
+            padding: 0 10px;
+        }
+
+        .step.active {
+            color: #0d6efd;
+            font-weight: bold;
+        }
+
+        .step.completed {
+            color: #198754;
+        }
+    </style>
+
+    <link rel="stylesheet" href="../../css/procesar_reserva.css">
 </head>
 <body class="bg-light">
     <div class="container py-5">
@@ -68,7 +165,8 @@ foreach ($_SESSION['datos_reserva']['pasajeros'] as $pasajero) {
             <div class="step completed">1. Búsqueda</div>
             <div class="step completed">2. Datos de Pasajeros</div>
             <div class="step active">3. Selección de Asientos</div>
-            <div class="step">4. Confirmación</div>
+            <div class="step">4. Pago</div>
+            <div class="step">5. Confirmación</div>
         </div>
 
         <!-- Información del vuelo -->
@@ -161,7 +259,7 @@ foreach ($_SESSION['datos_reserva']['pasajeros'] as $pasajero) {
         const filas = Math.ceil(capacidad / 6); // 6 asientos por fila (3-3)
         const container = document.getElementById('asientosContainer');
         
-        // Establecer el grid basado en el número de columnas (3 + pasillo + 3)
+   
         container.style.gridTemplateColumns = 'repeat(7, 1fr)';
 
         // Generar asientos
@@ -172,13 +270,11 @@ foreach ($_SESSION['datos_reserva']['pasajeros'] as $pasajero) {
             
             for (let col = 1; col <= 6 && asientoActual <= capacidad; col++) {
                 if (col === 4) {
-                    // Crear pasillo después de la columna 3
                     const pasillo = document.createElement('div');
                     pasillo.className = 'pasillo';
                     container.appendChild(pasillo);
                     continue;
                 }
-
                 const asiento = document.createElement('div');
                 const numeroAsiento = letraFila + col;
                 asiento.className = 'asiento';
@@ -199,7 +295,6 @@ foreach ($_SESSION['datos_reserva']['pasajeros'] as $pasajero) {
 
         function seleccionarAsiento(elemento, numeroAsiento) {
             if (elemento.classList.contains('ocupado')) return;
-            
             // Toggle selección
             if (elemento.classList.contains('seleccionado')) {
                 elemento.classList.remove('seleccionado');
@@ -215,7 +310,6 @@ foreach ($_SESSION['datos_reserva']['pasajeros'] as $pasajero) {
             }
 
             console.log('Asientos seleccionados:', asientosSeleccionados);
-            
             // Actualizar asignación de asientos
             actualizarAsignacionAsientos();
             
@@ -253,8 +347,10 @@ foreach ($_SESSION['datos_reserva']['pasajeros'] as $pasajero) {
             
             console.log('Enviando formulario con asientos:', asientosSeleccionados);
             document.getElementById('asientosSeleccionados').value = JSON.stringify(asientosSeleccionados);
+
             return true;
         });
     </script>
 </body>
 </html>
+
