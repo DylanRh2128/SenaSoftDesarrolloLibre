@@ -1,5 +1,15 @@
 <?php
     include 'conexion.php';
+    
+    // Obtener ciudades únicas para origen y destino
+    $sql = "SELECT DISTINCT origen FROM disponibilidad UNION SELECT DISTINCT destino FROM disponibilidad ORDER BY origen";
+    $result = mysqli_query($conexion, $sql);
+    $ciudades = array();
+    if ($result) {
+        while ($row = mysqli_fetch_assoc($result)) {
+            $ciudades[] = $row['origen'];
+        }
+    }
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -9,8 +19,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>SENASOFT - Vuelos</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="/css/index.css">
-    <link rel="stylesheet" href="/css/coloresGblo.css">
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="css/index.css">
+    <link rel="stylesheet" href="css/coloresGblo.css">
 </head>
 
 <body>
@@ -48,25 +59,50 @@
                 <div class="col-lg-5">
                     <div class="form-card">
                         <form method="get" action="pages/vuelos.php" class="row g-2">
+                            <div class="col-12 mb-3">
+                                <div class="btn-group w-100" role="group" aria-label="Tipo de vuelo">
+                                    <input type="radio" class="btn-check" name="tipo_vuelo" id="ida" value="ida" checked>
+                                    <label class="btn btn-outline-primary" for="ida">Solo ida</label>
+                                    
+                                    <input type="radio" class="btn-check" name="tipo_vuelo" id="ida_vuelta" value="ida_vuelta">
+                                    <label class="btn btn-outline-primary" for="ida_vuelta">Ida y vuelta</label>
+                                </div>
+                            </div>
+                            
                             <div class="col-12">
                                 <label class="form-label">Origen</label>
-                                <input name="origen" class="form-control" placeholder="Ciudad o aeropuerto" required>
+                                <select name="origen" class="form-select select2" required>
+                                    <option value="">Seleccione ciudad origen</option>
+                                    <?php foreach($ciudades as $ciudad): ?>
+                                        <option value="<?= htmlspecialchars($ciudad) ?>"><?= htmlspecialchars($ciudad) ?></option>
+                                    <?php endforeach; ?>
+                                </select>
                             </div>
+                            
                             <div class="col-12">
                                 <label class="form-label">Destino</label>
-                                <input name="destino" class="form-control" placeholder="Ciudad o aeropuerto" required>
+                                <select name="destino" class="form-select select2" required>
+                                    <option value="">Seleccione ciudad destino</option>
+                                    <?php foreach($ciudades as $ciudad): ?>
+                                        <option value="<?= htmlspecialchars($ciudad) ?>"><?= htmlspecialchars($ciudad) ?></option>
+                                    <?php endforeach; ?>
+                                </select>
                             </div>
-                            <div class="col-6">
+                            
+                            <div class="col-12 col-sm-6">
                                 <label class="form-label">Fecha ida</label>
-                                <input type="date" name="fecha_ida" class="form-control" required>
+                                <input type="date" name="fecha_ida" class="form-control" required 
+                                       min="<?= date('Y-m-d') ?>">
                             </div>
-                            <div class="col-6">
+                            
+                            <div class="col-12 col-sm-6" id="fecha_vuelta_container">
                                 <label class="form-label">Fecha vuelta</label>
-                                <input type="date" name="fecha_vuelta" class="form-control">
+                                <input type="date" name="fecha_vuelta" class="form-control"
+                                       min="<?= date('Y-m-d') ?>">
                             </div>
-                            <!-- Campo de pasajeros eliminado: ya no se envía al buscar -->
-                            <div class="col-6 d-flex align-items-end">
-                                <button type="submit" class="btn btn-primary w-100">Buscar vuelos</button>
+                            
+                            <div class="col-12">
+                                <button type="submit" class="btn btn-primary w-100 mt-3">Buscar vuelos</button>
                             </div>
                         </form>
                     </div>
@@ -164,6 +200,61 @@
         </div>
     </footer>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    
+    <script>
+        $(document).ready(function() {
+            // Inicializar Select2 en los selects
+            $('.select2').select2({
+                theme: 'bootstrap-5',
+                width: '100%',
+                placeholder: $(this).data('placeholder'),
+                allowClear: true
+            });
+            
+            // Manejar visibilidad de fecha_vuelta según tipo de vuelo
+            $('input[name="tipo_vuelo"]').change(function() {
+                const fechaVueltaContainer = $('#fecha_vuelta_container');
+                const fechaVueltaInput = $('input[name="fecha_vuelta"]');
+                
+                if ($(this).val() === 'ida') {
+                    fechaVueltaContainer.hide();
+                    fechaVueltaInput.prop('required', false);
+                } else {
+                    fechaVueltaContainer.show();
+                    fechaVueltaInput.prop('required', true);
+                }
+            });
+            
+            // Trigger inicial para establecer estado correcto
+            $('input[name="tipo_vuelo"]:checked').trigger('change');
+            
+            // Validar que destino != origen
+            $('form').on('submit', function(e) {
+                const origen = $('select[name="origen"]').val();
+                const destino = $('select[name="destino"]').val();
+                
+                if (origen === destino) {
+                    alert('El origen y destino no pueden ser iguales');
+                    e.preventDefault();
+                    return false;
+                }
+                
+                // Validar que fecha_vuelta > fecha_ida si es ida_vuelta
+                if ($('input[name="tipo_vuelo"]:checked').val() === 'ida_vuelta') {
+                    const fechaIda = new Date($('input[name="fecha_ida"]').val());
+                    const fechaVuelta = new Date($('input[name="fecha_vuelta"]').val());
+                    
+                    if (fechaVuelta <= fechaIda) {
+                        alert('La fecha de vuelta debe ser posterior a la fecha de ida');
+                        e.preventDefault();
+                        return false;
+                    }
+                }
+            });
+        });
+    </script>
 
 </body>
 
