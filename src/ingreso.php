@@ -8,7 +8,7 @@ $consulta = "SELECT p.idPasajero, p.nombres, p.primerApellido, r.nombreRol, p.pa
              FROM pasajeros p
              JOIN roles r ON p.idrRol = r.idRol
              WHERE p.email = ?";
-=======
+             
 if ($email === '' || $password === '') {
     echo "Por favor complete todos los campos.";
     exit();
