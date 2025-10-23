@@ -1,4 +1,10 @@
-
+/* VARIABLES COLORES */
+:root {
+    --color-primario: #0077b6;
+    --color-secundario: #00b4d8;
+    --color-fondo: #f0f9ff;
+    --color-texto: #0b132b;
+}
 
 /* Reseteo / base */
 html,
@@ -9,17 +15,38 @@ body {
     font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
 }
 
-/* Header */
+/* NAVBAR */
 .header {
-    background: rgba(255, 255, 255, 0.92);
-    border-bottom: 1px solid rgba(0, 0, 0, 0.06);
-    box-shadow: 0 1px 6px rgba(0, 0, 0, 0.03);
+    background: var(--color-primario);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
-/* Brand */
 .navbar-brand {
-    color: var(--color-primario) !important;
+    color: #fff !important;
     font-weight: 700;
+    letter-spacing: 0.5px;
+}
+
+.navbar-nav .nav-link {
+    color: #f0f0f0 !important;
+    font-weight: 500;
+    transition: color 0.2s ease, transform 0.2s ease;
+}
+
+.navbar-nav .nav-link:hover,
+.navbar-nav .nav-link:focus {
+    color: #fff !important;
+    transform: translateY(-2px);
+}
+
+.btn-outline-light.btn-sm {
+    border-color: #fff;
+    color: #fff;
+}
+
+.btn-outline-light.btn-sm:hover {
+    background: #fff;
+    color: var(--color-primario);
 }
 
 /* Botones principales */
@@ -30,8 +57,8 @@ body {
 
 .btn-primary:hover,
 .btn-primary:focus {
-    background-color: darken(var(--color-primario), 5%);
-    border-color: darken(var(--color-primario), 5%);
+    background-color: #005b8a;
+    border-color: #005b8a;
 }
 
 /* Cards */
@@ -81,4 +108,14 @@ body {
     .col-4 {
         width: 100% !important;
     }
+}
+
+/* Enlaces globales */
+a {
+    color: var(--color-primario);
+    text-decoration: none;
+}
+
+a:hover {
+    color: var(--color-secundario);
 }

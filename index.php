@@ -14,7 +14,7 @@
 </head>
 
 <body>
-    <nav class="navbar navbar-expand-lg navbar-dark header">
+    <nav class="navbar navbar-expand-lg header">
         <div class="container">
             <a class="navbar-brand" href="#">SENAPORC</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navmenu">
@@ -150,19 +150,6 @@
             </div>
     </div>
   </main>
-
-    <footer class="footer mt-auto">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-6 small-muted">
-                    © <?= date('Y') ?> SENAPORC. Todos los derechos reservados.
-                </div>
-                <div class="col-md-6 text-md-end small-muted">
-                    Soporte: soporte@example.com
-                </div>
-            </div>
-        </div>
-    </footer>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
 </body>

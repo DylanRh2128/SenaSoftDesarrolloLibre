@@ -1,21 +1,18 @@
 <?php
 session_start();
-include(__DIR__ . "/../conexion.php");
+include ("../conexion.php");
+$email = $_POST["email"];
+$password  = $_POST["password"];
 
-$email = $_POST['email'] ?? '';
-$pass  = $_POST['pass'] ?? '';
-
-if (trim($email) === '' || trim($pass) === '') {
-    echo "Por favor complete todos los campos.";
-    exit();
-}
-
-// Intentamos autenticar un pasajero
 $consulta = "SELECT p.idPasajero, p.nombres, p.primerApellido, r.nombreRol, p.password
              FROM pasajeros p
              JOIN roles r ON p.idrRol = r.idRol
              WHERE p.email = ?";
-
+=======
+if ($email === '' || $password === '') {
+    echo "Por favor complete todos los campos.";
+    exit();
+}
 if ($stmt = $conexion->prepare($consulta)) {
     $stmt->bind_param('s', $email);
     $stmt->execute();
