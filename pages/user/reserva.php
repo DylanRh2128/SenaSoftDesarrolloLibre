@@ -1,10 +1,8 @@
 <?php
-include ("../../conexion.php");
-
-// Verificar si se proporcionó un ID de vuelo
+include("../../conexion.php");
 $idVuelo = isset($_GET['vuelo']) ? (int)$_GET['vuelo'] : 0;
 
-// Obtener detalles del vuelo
+
 $sql = "SELECT d.*, av.nombreAvion, a.nombreAerolinea, 
         (SELECT COUNT(*) FROM tiquetes WHERE idVuelo = d.idDisponibilidad) as asientosOcupados,
         ma.capacidad as capacidadTotal
@@ -59,7 +57,12 @@ $asientosDisponibles = $vuelo['capacidadTotal'] - $vuelo['asientosOcupados'];
 <body class="bg-light">
     <div class="container py-5">
         <h1 class="mb-4">Reserva de Vuelo</h1>
-        
+    <link rel="stylesheet" href="../../css/reserva.css">
+</head>
+
+<body class="bg-light">
+    <div class="container py-5">
+        <h1 class="mb-4">Reserva de Vuelo</h1>
         <!-- Información del vuelo -->
         <div class="flight-info">
             <h4 class="card-title"><?= htmlspecialchars($vuelo['nombreAerolinea']) ?> — <?= htmlspecialchars($vuelo['nombreAvion']) ?></h4>
@@ -78,15 +81,11 @@ $asientosDisponibles = $vuelo['capacidadTotal'] - $vuelo['asientosOcupados'];
 
         <form action="procesar_reserva.php" method="POST" id="reservaForm">
             <input type="hidden" name="idVuelo" value="<?= $idVuelo ?>">
-            
             <div class="mb-4">
                 <h3>Pasajeros</h3>
                 <p class="text-muted">Puede reservar hasta 5 asientos por reserva</p>
             </div>
-
-            <!-- Contenedor para formularios de pasajeros -->
             <div id="pasajerosContainer">
-                <!-- El primer pasajero siempre se muestra -->
                 <div class="passenger-form" id="pasajero1">
                     <h4>Pasajero 1</h4>
                     <div class="row g-3">
@@ -137,7 +136,6 @@ $asientosDisponibles = $vuelo['capacidadTotal'] - $vuelo['asientosOcupados'];
                             <label class="form-label">Correo Electrónico</label>
                             <input type="email" class="form-control" name="pasajeros[0][email]" required>
                         </div>
-                        
                         <!-- Sección para infante asociado -->
                         <div class="col-12">
                             <div class="form-check mb-3">
@@ -148,7 +146,6 @@ $asientosDisponibles = $vuelo['capacidadTotal'] - $vuelo['asientosOcupados'];
                                 </label>
                             </div>
                         </div>
-                        
                         <div id="infanteForm0" style="display: none;" class="col-12 infant-form p-3">
                             <h5>Datos del Infante</h5>
                             <div class="row g-3">
@@ -180,6 +177,7 @@ $asientosDisponibles = $vuelo['capacidadTotal'] - $vuelo['asientosOcupados'];
 
             <!-- Botones de control -->
             <div class="mt-4 mb-5">
+
                 <button type="button" class="btn btn-secondary" onclick="agregarPasajero()" 
                         id="btnAgregarPasajero">
                     Agregar Otro Pasajero
@@ -347,4 +345,9 @@ $asientosDisponibles = $vuelo['capacidadTotal'] - $vuelo['asientosOcupados'];
         });
     </script>
 </body>
+</html>
+    <script src="../../js/reserva.js"></script>
+
+</body>
+
 </html>

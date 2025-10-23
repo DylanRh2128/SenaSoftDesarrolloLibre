@@ -446,6 +446,7 @@ if (empty($tiquetes)) {
     </div>
     
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
     <script>
         // Efecto confetti al cargar (opcional)
         window.addEventListener('load', function() {
@@ -453,5 +454,7 @@ if (empty($tiquetes)) {
             console.log('Reserva confirmada exitosamente!');
         });
     </script>
+
+    <script src="../../js/asientos.js"></script>
 </body>
 </html>

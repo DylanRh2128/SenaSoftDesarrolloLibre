@@ -1,14 +1,25 @@
 <?php
     include 'conexion.php';
+
+    // Obtener ciudades únicas para origen y destino
+    $sql = "SELECT DISTINCT origen FROM disponibilidad UNION SELECT DISTINCT destino FROM disponibilidad ORDER BY origen";
+    $result = mysqli_query($conexion, $sql);
+    $ciudades = array();
+    if ($result) {
+        while ($row = mysqli_fetch_assoc($result)) {
+            $ciudades[] = $row['origen'];
+        }
+    }
 ?>
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en">    
 
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>SENASOFT - Vuelos</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="css/index.css">
     <link rel="stylesheet" href="css/coloresGblo.css">
 </head>
@@ -20,7 +31,6 @@
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navmenu">
                 <span class="navbar-toggler-icon"></span>
             </button>
-
 
             <div class="collapse navbar-collapse" id="navmenu">
                 <ul class="navbar-nav ms-auto align-items-center">
@@ -35,8 +45,8 @@
                 </ul>
             </div>
         </div>
-
     </nav>
+
     <header class="py-5">
         <div class="container">
             <div class="row gy-4 align-items-center">
@@ -48,34 +58,58 @@
                 <div class="col-lg-5">
                     <div class="form-card">
                         <form method="get" action="pages/vuelos.php" class="row g-2">
+                            <div class="col-12 mb-3">
+                                <div class="btn-group w-100" role="group" aria-label="Tipo de vuelo">
+                                    <input type="radio" class="btn-check" name="tipo_vuelo" id="ida" value="ida" checked>
+                                    <label class="btn btn-outline-primary" for="ida">Solo ida</label>
+
+                                    <input type="radio" class="btn-check" name="tipo_vuelo" id="ida_vuelta" value="ida_vuelta">
+                                    <label class="btn btn-outline-primary" for="ida_vuelta">Ida y vuelta</label>
+                                </div>
+                            </div>
+
                             <div class="col-12">
                                 <label class="form-label">Origen</label>
-                                <input name="origen" class="form-control" placeholder="Ciudad o aeropuerto" required>
+                                <select name="origen" class="form-select select2" required>
+                                    <option value="">Seleccione ciudad origen</option>
+                                    <?php foreach($ciudades as $ciudad): ?>
+                                        <option value="<?= htmlspecialchars($ciudad) ?>"><?= htmlspecialchars($ciudad) ?></option>
+                                    <?php endforeach; ?>
+                                </select>
                             </div>
+
                             <div class="col-12">
                                 <label class="form-label">Destino</label>
-                                <input name="destino" class="form-control" placeholder="Ciudad o aeropuerto" required>
+                                <select name="destino" class="form-select select2" required>
+                                    <option value="">Seleccione ciudad destino</option>
+                                    <?php foreach($ciudades as $ciudad): ?>
+                                        <option value="<?= htmlspecialchars($ciudad) ?>"><?= htmlspecialchars($ciudad) ?></option>
+                                    <?php endforeach; ?>
+                                </select>
                             </div>
-                            <div class="col-6">
+
+                            <div class="col-12 col-sm-6">
                                 <label class="form-label">Fecha ida</label>
-                                <input type="date" name="fecha_ida" class="form-control" required>
+                                <input type="date" name="fecha_ida" class="form-control" required 
+                                       min="<?= date('Y-m-d') ?>">
                             </div>
-                            <div class="col-6">
+
+                            <div class="col-12 col-sm-6" id="fecha_vuelta_container">
                                 <label class="form-label">Fecha vuelta</label>
-                                <input type="date" name="fecha_vuelta" class="form-control">
+                                <input type="date" name="fecha_vuelta" class="form-control"
+                                       min="<?= date('Y-m-d') ?>">
                             </div>
-                            <!-- Campo de pasajeros eliminado: ya no se envía al buscar -->
-                            <div class="col-6 d-flex align-items-end">
-                                <button type="submit" class="btn btn-primary w-100">Buscar vuelos</button>
+
+                            <div class="col-12">
+                                <button type="submit" class="btn btn-primary w-100 mt-3">Buscar vuelos</button>
                             </div>
                         </form>
                     </div>
                 </div>
             </div>
         </div>
-
-
     </header>
+
     <main class="py-4">
         <div class="container">
             <div class="row g-4">
@@ -100,7 +134,6 @@
                                 </div>
                             <?php endforeach; ?>
                         <?php else: ?>
-                            
                             <?php for ($i = 0; $i < 4; $i++): ?>
                                 <div class="col">
                                     <div class="card destino-card">
@@ -115,6 +148,7 @@
                         <?php endif; ?>
                     </div>
                 </div>
+
                 <aside class="col-12 col-lg-4">
                     <div class="mb-4">
                         <h5>Promociones activas</h5>
@@ -139,19 +173,19 @@
                         <?php endif; ?>
                     </div>
 
-
-
                     <div class="mb-3">
                         <h6>Información rápida</h6>
                         <p class="small-muted">Políticas de equipaje, cambios y asistencia 24/7. Consulta términos antes de viajar.</p>
                     </div>
                 </aside>
-
             </div>
-    </div>
-  </main>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+        </div>
+    </main>
 
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    <script src="/js/index.js"></script>
 </body>
 
 </html>
