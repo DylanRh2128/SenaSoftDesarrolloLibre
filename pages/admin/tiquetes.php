@@ -1,5 +1,7 @@
 <?php
 include "../../conexion.php";
+
+// Obtener todos los tiquetes
 $tiquetes = [];
 $sql = "SELECT idTiquete, idPasajero, idVuelo, asiento, precio, fechaCompra, codigoReserva, fecha, totalPagar, idReserva FROM tiquetes";
 $res = mysqli_query($conexion, $sql);
@@ -9,6 +11,7 @@ if ($res && mysqli_num_rows($res) > 0) {
     }
 }
 
+// Obtener reservas para el select
 $reservas = [];
 $rRes = mysqli_query($conexion, "SELECT idReserva, subtotal FROM reservas ORDER BY idReserva");
 if ($rRes && mysqli_num_rows($rRes) > 0) {
@@ -16,15 +19,19 @@ if ($rRes && mysqli_num_rows($rRes) > 0) {
         $reservas[] = $r;
     }
 }
+
+// Obtener pasajeros
 $pasajeros = [];
-$pRes = mysqli_query($conexion, "SELECT idPasajero, nombres FROM pasajeros ORDER BY idPasajero");
+$pRes = mysqli_query($conexion, "SELECT idPasajero, nombre FROM pasajeros ORDER BY idPasajero");
 if ($pRes && mysqli_num_rows($pRes) > 0) {
     while ($p = mysqli_fetch_assoc($pRes)) {
         $pasajeros[] = $p;
     }
 }
+
+// Obtener vuelos
 $vuelos = [];
-$vRes = mysqli_query($conexion, "SELECT idAvion, destino FROM disponibilidad ORDER BY idAvion");
+$vRes = mysqli_query($conexion, "SELECT idVuelo, destino FROM vuelos ORDER BY idVuelo");
 if ($vRes && mysqli_num_rows($vRes) > 0) {
     while ($v = mysqli_fetch_assoc($vRes)) {
         $vuelos[] = $v;
@@ -39,32 +46,38 @@ if ($vRes && mysqli_num_rows($vRes) > 0) {
     <title>Tiquetes - SENASOFT</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="../../css/admin.css">
+    <link rel="stylesheet" href="../../css/register.css">
 </head>
 
 <body class="bg-light">
+
+    <!-- Navbar -->
     <nav class="navbar navbar-expand-lg header">
         <div class="container">
             <div class="collapse navbar-collapse" id="navmenu">
                 <ul class="navbar-nav ms-auto align-items-center">
                     <li class="nav-item"><a class="nav-link" href="roles.php">Roles</a></li>
                     <li class="nav-item"><a class="nav-link" href="aerolineas.php">Aerolíneas</a></li>
-                    <li class="nav-item"><a class="nav-link" href="modeloAviones.php">Modelos</a></li>
+                    <li class="nav-item"><a class="nav-link" href="modeloAviones.php">Modelo Aviones</a></li>
                     <li class="nav-item"><a class="nav-link" href="aviones.php">Aviones</a></li>
                     <li class="nav-item"><a class="nav-link" href="pasajeros.php">Pasajeros</a></li>
                     <li class="nav-item"><a class="nav-link" href="disponibilidad.php">Disponibilidad</a></li>
                     <li class="nav-item"><a class="nav-link" href="reservas.php">Reservas</a></li>
-                    <li class="nav-item"><a class="nav-link" href="tiquetes.php">Tiquetes</a></li>
+                    <li class="nav-item"><a class="nav-link active" href="tiquetes.php">Tiquetes</a></li>
                 </ul>
             </div>
         </div>
     </nav>
+
+    <!-- Contenido principal -->
     <div class="container py-5">
 
         <div class="text-center mb-4">
             <h1 class="fw-bold text-primary">Gestión de Tiquetes</h1>
             <p class="text-muted">Consulta, edita o crea nuevos tiquetes</p>
         </div>
+
+        <!-- Tabla de tiquetes -->
         <div class="card shadow-sm border-0 mb-5">
             <div class="card-body">
                 <div class="table-responsive">
@@ -114,6 +127,8 @@ if ($vRes && mysqli_num_rows($vRes) > 0) {
                 </div>
             </div>
         </div>
+
+        <!-- Formulario para crear nuevo tiquete -->
         <div class="card shadow-sm border-0">
             <div class="card-body">
                 <h3 class="mb-3 text-primary text-center">Crear nuevo tiquete</h3>
@@ -123,7 +138,7 @@ if ($vRes && mysqli_num_rows($vRes) > 0) {
                         <select name="idPasajero" class="form-select" required>
                             <option value="">Seleccione...</option>
                             <?php foreach ($pasajeros as $p): ?>
-                                <option value="<?= $p['idPasajero'] ?>"><?= $p['nombres'] ?> (ID <?= $p['idPasajero'] ?>)</option>
+                                <option value="<?= $p['idPasajero'] ?>"><?= $p['nombre'] ?> (ID <?= $p['idPasajero'] ?>)</option>
                             <?php endforeach; ?>
                         </select>
                     </div>
@@ -132,7 +147,7 @@ if ($vRes && mysqli_num_rows($vRes) > 0) {
                         <select name="idVuelo" class="form-select" required>
                             <option value="">Seleccione...</option>
                             <?php foreach ($vuelos as $v): ?>
-                                <option value="<?= $v['idAvion'] ?>">Vuelo #<?= $v['idAvion'] ?> — <?= $v['destino'] ?></option>
+                                <option value="<?= $v['idVuelo'] ?>">Vuelo #<?= $v['idVuelo'] ?> — <?= $v['destino'] ?></option>
                             <?php endforeach; ?>
                         </select>
                     </div>

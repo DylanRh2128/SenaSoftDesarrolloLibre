@@ -173,7 +173,7 @@ $total = $subtotal + $iva;
         </div>
 
         <!-- Botones de acción -->
-        <form action="procesar_pago.php" method="POST">
+        <form action="procesar_pago.php" method="GET">
             <div class="d-flex justify-content-between align-items-center">
                 <a href="seleccionar_asiento.php" class="btn btn-outline-secondary">
                     <i class="fas fa-arrow-left"></i> Modificar Asientos
@@ -183,7 +183,7 @@ $total = $subtotal + $iva;
                         <i class="fas fa-times"></i> Cancelar Reserva
                     </a>
                     <button type="submit" class="btn btn-success btn-lg">
-                        <i class="fas fa-check"></i> Confirmar y Proceder al Pago
+                        <i class="fas fa-check"></i> Ir a Pago
                     </button>
                 </div>
             </div>

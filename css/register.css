@@ -1,135 +1,169 @@
+/* =============================
+   RESET Y VARIABLES BASE
+============================= */
 :root {
-  --color-primario: #038C8C;
-  --color-secundario: #F29829;
-  --color-fondo: #4EB4D0;
-  --color-texto: #8C7B65;
+  --color-primario: #007bff;
+  --color-secundario: #0056b3;
+  --color-fondo: #f8fafc;
+  --color-texto: #212529;
+  --color-header: #0d6efd;
+  --color-hover: #0b5ed7;
+  --color-borde: #dee2e6;
 }
 
 * {
   box-sizing: border-box;
-  font-family: 'Poppins', sans-serif;
-}
-
-body {
-  background-color: var(--color-fondo);
   margin: 0;
   padding: 0;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
 }
 
-.contenedor {
-  display: flex;
-  flex-wrap: wrap;
-  width: 750px;
-  max-width: 90%;
-  background: #fff;
-  border-radius: 20px;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
-  overflow: hidden;
-}
-
-.formulario {
-  flex: 1;
-  min-width: 300px;
-  padding: 35px 30px;
-}
-
-.formulario h2 {
-  text-align: center;
-  color: var(--color-primario);
-  margin-bottom: 20px;
-}
-
-.formulario form {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-}
-
-.formulario input,
-.formulario select {
-  padding: 10px;
-  border: 1px solid #ccc;
-  border-radius: 8px;
-  outline: none;
+/* =============================
+   GENERAL
+============================= */
+html, body {
+  height: 100%;
+  font-family: "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  background: linear-gradient(180deg, #e3f2fd 0%, #f8f9fa 100%);
   color: var(--color-texto);
 }
 
-.formulario input:focus,
-.formulario select:focus {
-  border-color: var(--color-primario);
-  box-shadow: 0 0 5px rgba(3, 140, 140, 0.4);
+/* =============================
+   NAVBAR
+============================= */
+.header {
+  background-color: var(--color-header);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
 }
 
-.derecha {
-  flex: 1;
-  min-width: 300px;
-  background: var(--color-primario);
+.header .nav-link {
+  color: #fff !important;
+  font-weight: 500;
+  transition: color 0.3s ease, transform 0.2s ease;
+  padding: 0.5rem 1rem;
+}
+
+.header .nav-link:hover {
+  color: #d1e9ff !important;
+  transform: translateY(-1px);
+}
+
+.header .navbar-nav .nav-item + .nav-item {
+  margin-left: 0.5rem;
+}
+
+/* =============================
+   CONTENEDOR PRINCIPAL
+============================= */
+.container {
+  max-width: 1100px;
+}
+
+h1, h3 {
+  color: var(--color-secundario);
+  font-weight: 600;
+  text-align: center;
+  margin-bottom: 1.5rem;
+}
+
+/* =============================
+   TABLA
+============================= */
+.table {
+  background: #fff;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.table th {
+  background-color: var(--color-primario);
   color: #fff;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  padding: 30px;
   text-align: center;
 }
 
-.btn-crear {
-  background: var(--color-secundario);
-  border: none;
-  padding: 12px 40px;
-  border-radius: 10px;
-  color: #fff;
-  font-weight: bold;
-  cursor: pointer;
-  margin-top: 10px;
-  transition: background 0.3s;
+.table td {
+  vertical-align: middle;
+  text-align: center;
 }
 
-.btn-crear:hover {
-  background: #f0a84f;
+.table-striped tbody tr:nth-of-type(odd) {
+  background-color: #f9fbff;
 }
 
-.texto-condiciones {
-  font-size: 0.9em;
-  margin-top: 15px;
-}
-
-.texto-condiciones a {
-  color: #fff;
-  text-decoration: underline;
-}
-
-.login-link {
+/* =============================
+   FORMULARIO
+============================= */
+form {
+  margin-top: 2rem;
   background: #fff;
-  color: var(--color-primario);
-  border-radius: 10px;
-  padding: 10px 15px;
-  margin-top: 20px;
-  transition: 0.3s;
+  padding: 1.5rem;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
-.login-link a {
-  color: var(--color-primario);
-  font-weight: bold;
-  text-decoration: none;
+form input,
+form select {
+  border: 1px solid var(--color-borde);
+  border-radius: 8px;
+  transition: all 0.2s ease;
 }
 
-.login-link:hover {
-  background: var(--color-secundario);
-  color: #fff;
+form input:focus,
+form select:focus {
+  border-color: var(--color-primario);
+  box-shadow: 0 0 0 0.2rem rgba(13, 110, 253, 0.25);
 }
 
+/* =============================
+   BOTONES
+============================= */
+.btn-primary {
+  background-color: var(--color-primario);
+  border-color: var(--color-primario);
+  border-radius: 8px;
+  padding: 0.5rem 1.2rem;
+  font-weight: 500;
+}
+
+.btn-primary:hover {
+  background-color: var(--color-hover);
+  border-color: var(--color-hover);
+}
+
+.btn-warning {
+  background-color: #ffc107;
+  border: none;
+  color: #000;
+}
+
+.btn-warning:hover {
+  background-color: #e0a800;
+}
+
+.btn-danger {
+  background-color: #dc3545;
+  border: none;
+}
+
+.btn-danger:hover {
+  background-color: #bb2d3b;
+}
+
+/* =============================
+   RESPONSIVE
+============================= */
 @media (max-width: 768px) {
-  .contenedor {
-    flex-direction: column;
-    align-items: center;
+  .header .nav-link {
+    padding: 0.5rem;
+    font-size: 0.9rem;
   }
 
-  .derecha {
-    border-top: 2px solid var(--color-primario);
+  .table {
+    font-size: 0.85rem;
+  }
+
+  form .col-4, form .col-3, form .col-2 {
+    flex: 0 0 100%;
+    max-width: 100%;
   }
 }

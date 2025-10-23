@@ -1,11 +1,10 @@
 <?php
 include "../../conexion.php";
 $items = [];
-$sql = "SELECT idPasajero, nombres, primerApellido, segundoApellido, fechNacimiento, genero, tipoDocumento, documento, celular, email, idrRol FROM pasajeros";
+$sql = "SELECT idPasajero, nombres, primerApellido, segundoApellido, fechNacimiento, genero, tipoDocumento, documento, celular, email, idRol FROM pasajeros";
 $res = mysqli_query($conexion, $sql);
 if ($res && mysqli_num_rows($res) > 0) while ($row = mysqli_fetch_assoc($res)) $items[] = $row;
 
-// Obtener roles para el select
 $roles = [];
 $rSql = "SELECT idRol, nombreRol FROM roles ORDER BY nombreRol";
 $rRes = mysqli_query($conexion, $rSql);
@@ -63,7 +62,7 @@ if ($rRes && mysqli_num_rows($rRes) > 0) while ($r = mysqli_fetch_assoc($rRes)) 
                                     <td><?= htmlspecialchars($it['tipoDocumento'] . ' ' . $it['documento']) ?></td>
                                     <td><?= htmlspecialchars($it['celular']) ?></td>
                                     <td><?= htmlspecialchars($it['email']) ?></td>
-                                    <td><?= htmlspecialchars($it['idrRol']) ?></td>
+                                    <td><?= htmlspecialchars($it['idRol']) ?></td>
                                     <td>
                                         <a href="../../src/admin/editar-pasajeros.php?idPasajero=<?= $it['idPasajero'] ?>" class="btn btn-sm btn-warning">Editar</a>
                                         <a href="../../src/admin/eliminar-pasajeros.php?idPasajero=<?= $it['idPasajero'] ?>" class="btn btn-sm btn-danger ms-2">Eliminar</a>

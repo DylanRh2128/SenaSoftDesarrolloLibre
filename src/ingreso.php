@@ -6,7 +6,7 @@ $password  = $_POST["password"];
 
 $consulta = "SELECT p.idPasajero, p.nombres, p.primerApellido, r.nombreRol, p.password
              FROM pasajeros p
-             JOIN roles r ON p.idrRol = r.idRol
+             JOIN roles r ON p.idRol = r.idRol
              WHERE p.email = ?";
              
 if ($email === '' || $password === '') {
@@ -21,7 +21,7 @@ if ($stmt = $conexion->prepare($consulta)) {
     if ($result && $result->num_rows === 1) {
         $user = $result->fetch_assoc();
 
-        if ((isset($user['password']) && password_verify($pass, $user['password'])) || trim($pass) === trim($user['password'])) {
+        if ((isset($user['password']) && password_verify($password, $user['password'])) || trim($password) === trim($user['password'])) {
             $_SESSION['user_email'] = $email;
             $_SESSION['user_name'] = $user['nombres'] ?? '';
             $_SESSION['user_role'] = $user['nombreRol'] ?? 'pasajero';
@@ -59,7 +59,7 @@ if ($stmt2 = $conexion->prepare($sql_aero)) {
     if ($result_aero && $result_aero->num_rows === 1) {
         $aero = $result_aero->fetch_assoc();
 
-        if ((isset($aero['password']) && password_verify($pass, $aero['password'])) || trim($pass) === trim($aero['password'])) {
+        if ((isset($aero['password']) && password_verify($password, $aero['password'])) || trim($password) === trim($aero['password'])) {
             $_SESSION['user_email'] = $email;
             $_SESSION['user_name'] = $aero['nombreAerolinea'] ?? '';
             $_SESSION['user_role'] = 'aerolinea';
